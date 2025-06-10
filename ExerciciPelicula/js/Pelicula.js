@@ -1,51 +1,56 @@
 export class Pelicula {
-  constructor(id, titol, director, any, pais, generes, qualificacio) {
-    this.DadesObjecteObligatories(
-      id,
-      titol,
-      director,
-      any,
-      pais,
-      generes,
-      qualificacio
-    );
-    this.id = this.ValidacioID(id) ? id : undefined;
-    this.titol = this.ValidacioTitol(titol) ? titol : undefined;
-    this.director = this.ValidarDirector(director) ? director : undefined;
-    this.any = this.ValidarAny(any) ? any : undefined;
-    this.paisos = this.ValidarPaisos(pais) ? pais : undefined;
-    this.generes = this.ValidarGeneres(generes) ? generes : undefined;
-    this.qualificacio = this.Validarqualificacio(qualificacio)
-      ? qualificacio
-      : undefined;
+  constructor(arrayPelis) {
+    // id, titol, director, any, pais, generes, qualificacio
 
-    let b;
+    this.DadesObjecteObligatories(arrayPelis);
+
+    this.pelicules = new Array();
+
+    for (let index = 0; index < arrayPelis.length; index++) {
+      this.pelicules[index] = {};
+      this.pelicules[index].id = this.ValidacioID(arrayPelis[index][0])
+        ? arrayPelis[index][0]
+        : undefined;
+
+      this.pelicules[index].titol = this.ValidacioTitol(arrayPelis[index][1])
+        ? arrayPelis[index][1]
+        : undefined;
+
+      this.pelicules[index].director = this.ValidarDirector(
+        arrayPelis[index][2]
+      )
+        ? arrayPelis[index][2]
+        : undefined;
+      this.pelicules[index].any = this.ValidarAny(arrayPelis[index][3])
+        ? arrayPelis[index][3]
+        : undefined;
+      this.pelicules[index].paisos = this.ValidarPaisos(arrayPelis[index][4])
+        ? arrayPelis[index][4]
+        : undefined;
+      this.pelicules[index].generes = this.ValidarGeneres(arrayPelis[index][5])
+        ? arrayPelis[index][5]
+        : undefined;
+      this.pelicules[index].qualificacio = this.Validarqualificacio(
+        arrayPelis[index][6]
+      )
+        ? arrayPelis[index][6]
+        : undefined;
+    }
   }
 
   // Valido de que estiguin TOTES les dades
 
-  DadesObjecteObligatories(
-    id,
-    titol,
-    director,
-    any,
-    pais,
-    generes,
-    qualificacio
-  ) {
-    if (
-      id === undefined ||
-      titol === undefined ||
-      director === undefined ||
-      any === undefined ||
-      pais === undefined ||
-      generes === undefined ||
-      qualificacio === undefined
-    ) {
-      console.error("NO pot haver valors undefined al constructor de Pelicula");
-      return false;
-    } else {
-      return true;
+  DadesObjecteObligatories(array) {
+    for (let index = 0; index < array.length; index++) {
+      if (array[index].length < 7) {
+        console.error(`Falten dades al ${index + 1} array`);
+      } else if (array[index].length > 7) {
+        console.error(`Sobren dades al ${index + 1} array`);
+      } else {
+        console.log(
+          `Les dades estan correctament contades al ${index + 1} array`
+        );
+      }
     }
   }
 
@@ -108,14 +113,13 @@ export class Pelicula {
   // Validar any
 
   ValidarAny(any) {
-    let anySTRING = any.toString();
     if (any === undefined) {
       console.error("El any es undefined");
       return false;
     } else if (isNaN(any)) {
       console.error("El any te que ser un numero");
       return false;
-    } else if (anySTRING.length !== 4) {
+    } else if (any.toString().length !== 4) {
       console.error("L'any te que tindrer 4 digits");
       return false;
     } else {
@@ -239,17 +243,13 @@ export class Pelicula {
       a = parseFloat(a);  */
       let notaSTRING = nota.toString();
       notaSTRING = notaSTRING.split("");
-      let i = 0;
-      while (i < notaSTRING.length) {
-        i++;
-      }
-      if (i <= 3) {
-        console.log("Nota correcta");
-        return true;
-      } else {
-        console.error("Sol pot tindre 1 digit");
+      let digits = notaSTRING.length - 2;
+      if (digits > 1) {
+        console.error("Te mes de un  decimal");
         return false;
       }
+      console.log("La qualificacio es correcta");
+      return true;
     }
   }
 }
