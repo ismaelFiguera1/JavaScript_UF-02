@@ -13,6 +13,11 @@ export class Pelicula {
     this.titol = this.ValidacioTitol(titol) ? titol : undefined;
     this.director = this.ValidarDirector(director) ? director : undefined;
     this.any = this.ValidarAny(any) ? any : undefined;
+    this.paisos = this.ValidarPaisos(pais) ? pais : undefined;
+    this.generes = this.ValidarGeneres(generes) ? generes : undefined;
+    this.qualificacio = this.Validarqualificacio(qualificacio)
+      ? qualificacio
+      : undefined;
 
     let b;
   }
@@ -116,6 +121,135 @@ export class Pelicula {
     } else {
       console.log("L'Any es correcte");
       return true;
+    }
+  }
+
+  // Validar Paisos
+
+  ValidarPaisos(paisos) {
+    if (paisos === undefined) {
+      console.error("El paisos son undefined");
+      return false;
+    } else if (!Array.isArray(paisos)) {
+      console.error("Els paisos tenen que ser en format array");
+      return false;
+    } else {
+      console.log("Els paisos son correctes");
+      return true;
+    }
+  }
+
+  // Retorn GENERES
+
+  Generes() {
+    return [
+      "Action",
+      "Adult",
+      "Adventure",
+      "Animation",
+      "Biography",
+      "Comedy",
+      "Crime",
+      "Documentary",
+      "Drama",
+      "Family",
+      "Fantasy",
+      "Film Noir",
+      "Game-Show",
+      "History",
+      "Horror",
+      "Musical",
+      "Music",
+      "Mystery",
+      "News",
+      "Reality-TV",
+      "Romance",
+      "Sci-Fi",
+      "Short",
+      "Sport",
+      "Talk-Show",
+      "Thriller",
+      "War",
+      "Western",
+    ];
+  }
+
+  // Validar GENERES
+
+  ValidarGeneres(generes) {
+    if (generes === undefined) {
+      console.error("Els generes son undefined");
+      return false;
+    } else if (!Array.isArray(generes)) {
+      console.error("Els generes tenen que ser en format array");
+      return false;
+    } else {
+      function ValidarStrings(element) {
+        if (typeof element === "string") {
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+      const generesPermetuts = this.Generes();
+
+      function GeneresAcceptats(genere) {
+        for (let index = 0; index < generesPermetuts.length; index++) {
+          if (genere === generesPermetuts[index]) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      for (let index = 0; index < generes.length; index++) {
+        let SERstring = ValidarStrings(generes[index]) ? true : false;
+        let acceptat = GeneresAcceptats(generes[index]) ? true : false;
+        if (SERstring === false) {
+          console.error("Els generes tenen que ser STRINGS");
+          return false;
+        }
+        if (acceptat === false) {
+          console.error("Els generes tenen que ser acceptats");
+          return false;
+        }
+      }
+
+      console.log("Els generes son correctes");
+
+      return true;
+    }
+  }
+
+  // Validar qualificacio
+
+  Validarqualificacio(nota) {
+    if (nota === undefined) {
+      console.error("La nota es undefined");
+      return false;
+    } else if (isNaN(nota)) {
+      console.error("La nota te que ser numerica");
+      return false;
+    } else if (nota < 0 || nota > 10) {
+      console.error("La nota te que ser entre 0 i 10");
+      return false;
+    } else {
+      /*   let a = nota.toFixed(1);
+      a = parseFloat(a);  */
+      let notaSTRING = nota.toString();
+      notaSTRING = notaSTRING.split("");
+      let i = 0;
+      while (i < notaSTRING.length) {
+        i++;
+      }
+      if (i <= 3) {
+        console.log("Nota correcta");
+        return true;
+      } else {
+        console.error("Sol pot tindre 1 digit");
+        return false;
+      }
     }
   }
 }
